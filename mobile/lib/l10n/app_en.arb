@@ -1,0 +1,17 @@
+{
+  "@@locale": "en",
+  "appTitle": "KisanFlow",
+  "welcome": "Welcome to KisanFlow",
+  "splashSubtitle": "Smart Agriculture Queue Management & Procurement",
+  "selectRole": "Select Your Role",
+  "farmerRole": "Farmer",
+  "staffRole": "Procurement Centre Staff",
+  "pacsRole": "PACS Operator",
+  "adminRole": "Administrator",
+  "changeLanguage": "Language",
+  "loading": "Loading...",
+  "error": "An error occurred",
+  "retry": "Retry",
+  "offlineMode": "Offline Mode (Cached)",
+  "simulatedBadge": "Demo / Simulated"
+}

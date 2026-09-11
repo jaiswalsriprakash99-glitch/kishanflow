@@ -1,0 +1,17 @@
+{
+  "@@locale": "mr",
+  "appTitle": "किसानफ्लो",
+  "welcome": "किसानफ्लो मध्ये आपले स्वागत आहे",
+  "splashSubtitle": "स्मार्ट शेती रांग व्यवस्थापन आणि खरेदी",
+  "selectRole": "आपली भूमिका निवडा",
+  "farmerRole": "शेतकरी",
+  "staffRole": "खरेदी केंद्र कर्मचारी",
+  "pacsRole": "पॅक्स ऑपरेटर",
+  "adminRole": "प्रशासक",
+  "changeLanguage": "भाषा",
+  "loading": "लोड होत आहे...",
+  "error": "त्रुटी आली",
+  "retry": "पुन्हा प्रयत्न करा",
+  "offlineMode": "ऑफलाइन मोड",
+  "simulatedBadge": "डेमो / सिम्युलेटेड"
+}

@@ -1,0 +1,69 @@
+# Environment variables
+.env
+.env.local
+*.env
+*.env.backup
+!.env.example
+
+# Temporary cloned repo subfolder
+kishanflow/
+
+# Python / FastAPI / virtualenvs
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+.mypy_cache/
+*.db
+*.sqlite3
+
+# Flutter / Dart
+build/
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/PhoneticData
+android/app/debug/
+android/app/profile/
+android/app/release/
+local.properties
+
+# Secrets, Credentials & Keys
+*.keystore
+*.jks
+*.p12
+*.pem
+*.key
+google-services.json
+GoogleService-Info.plist
+*service-account*.json
+*firebase*.json
+
+# Logs
+*.log
+
+# macOS / OS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE & Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*.iml
+.gradle/
+.kotlin/
+
