@@ -248,6 +248,36 @@ def seed_database(db: Session):
             )
             db.add(ai_pred)
 
+            # 8b. Seed Procurement Record & Payment
+            pay_amount = round(bk.estimated_quantity_quintals * 2183.0, 2)
+            proc_status = "ACCEPTED" if booking_counter % 10 != 0 else "REJECTED"
+            proc_rec = ProcurementRecord(
+                booking_id=bk.id,
+                centre_id=bk.centre_id,
+                farmer_id=farmer.id,
+                crop_id=bk.crop_id,
+                quantity_quintals=bk.estimated_quantity_quintals,
+                total_amount=pay_amount,
+                status=proc_status,
+                created_at=datetime.datetime.utcnow() - datetime.timedelta(days=random.randint(1, 5))
+            )
+            db.add(proc_rec)
+            db.flush()
+
+            pay_status = "CREDITED" if booking_counter % 5 != 0 else "PROCESSING"
+            pay_rec = Payment(
+                booking_id=bk.id,
+                procurement_record_id=proc_rec.id,
+                farmer_id=farmer.id,
+                amount=pay_amount,
+                payment_reference=f"PAY-REF-{booking_counter:04d}",
+                status=pay_status,
+                is_simulated=True,
+                initiated_at=datetime.datetime.utcnow() - datetime.timedelta(days=random.randint(1, 4)),
+                credited_at=datetime.datetime.utcnow() if pay_status == "CREDITED" else None
+            )
+            db.add(pay_rec)
+
         booking_counter += 1
 
     # 9. App Configurations
@@ -259,6 +289,22 @@ def seed_database(db: Session):
             description="If true, PACS collections require forwarding to a main centre"
         )
         db.add(pacs_config)
+
+    # 10. Default Admin and Staff Users
+    admin_user = db.query(StaffUser).filter(StaffUser.username == "admin").first()
+    if not admin_user:
+        import bcrypt
+        hashed = bcrypt.hashpw(b"admin123", bcrypt.gensalt()).decode("utf-8")
+        admin_user = StaffUser(
+            username="admin",
+            full_name="Chief Procurement Administrator",
+            hashed_password=hashed,
+            role="ADMIN",
+            phone_number="9876543200",
+            is_active=True
+        )
+        db.add(admin_user)
+        db.flush()
 
     db.commit()
     print("Synthetic Data Seeding Completed Successfully!")

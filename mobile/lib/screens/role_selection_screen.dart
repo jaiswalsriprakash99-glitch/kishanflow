@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../farmer/farmer_shell.dart';
+import '../farmer/farmer_login_screen.dart';
+import '../services/api_service.dart';
 import '../staff/staff_shell.dart';
 import '../pacs/pacs_shell.dart';
 import '../admin/admin_shell.dart';
@@ -66,9 +68,23 @@ class RoleSelectionScreen extends StatelessWidget {
               title: l10n.farmerRole,
               subtitle: 'Book slots, track queue status & crop details',
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const FarmerShell()),
-                );
+                if (ApiService().isFarmerAuthenticated) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const FarmerShell()),
+                  );
+                } else {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => FarmerLoginScreen(
+                        onLoginSuccess: () {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => const FarmerShell()),
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                }
               },
             ),
             const SizedBox(height: 16),
