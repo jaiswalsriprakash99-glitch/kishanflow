@@ -44,6 +44,6 @@ def test_staff_widget_completion_update():
     assert os.path.exists(staff_file)
     with open(staff_file, 'r', encoding='utf-8') as f:
         content = f.read()
-        assert '_completeFarmer' in content
-        assert 'Mark Done' in content
+        assert '_showPauseDialog' in content
         assert 'Pause Centre Operations' in content
+        assert 'LIVE QUEUE' in content

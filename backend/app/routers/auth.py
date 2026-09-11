@@ -36,6 +36,9 @@ class TokenResponse(BaseModel):
     token_type: str = "bearer"
     role: str
     user_id: int
+    centre_id: Optional[int] = None
+    username: Optional[str] = None
+    full_name: Optional[str] = None
 
 def create_jwt_token(payload: dict) -> str:
     settings = get_settings()
@@ -202,5 +205,8 @@ def staff_login(request: StaffLoginRequest, db: Session = Depends(get_db)):
     return TokenResponse(
         access_token=token,
         role=staff.role,
-        user_id=staff.id
+        user_id=staff.id,
+        centre_id=staff.centre_id,
+        username=staff.username,
+        full_name=staff.full_name
     )

@@ -89,6 +89,34 @@ def seed_database(db: Session):
             db.flush()
         centre_objs.append(centre)
 
+    # 3.5 Staff Users
+    import bcrypt
+    pwd_hash = bcrypt.hashpw(b"password123", bcrypt.gensalt()).decode('utf-8')
+    staff_data = [
+        {
+            "username": "staff1",
+            "full_name": "Mandya Staff Operator",
+            "hashed_password": pwd_hash,
+            "role": "CENTRE_STAFF",
+            "centre_id": centre_objs[0].id,
+            "phone_number": "9876540001",
+        },
+        {
+            "username": "operator1",
+            "full_name": "Mysore PACS Staff",
+            "hashed_password": pwd_hash,
+            "role": "CENTRE_STAFF",
+            "centre_id": centre_objs[1].id,
+            "phone_number": "9876540002",
+        },
+    ]
+    for s_item in staff_data:
+        staff_u = db.query(StaffUser).filter(StaffUser.username == s_item["username"]).first()
+        if not staff_u:
+            staff_u = StaffUser(**s_item)
+            db.add(staff_u)
+            db.flush()
+
     # 4. Counters
     counter_objs = []
     for centre in centre_objs:
