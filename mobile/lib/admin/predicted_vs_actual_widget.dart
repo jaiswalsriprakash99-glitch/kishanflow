@@ -47,22 +47,20 @@ class PredictedVsActualWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Row(
-                  children: [
-                    Icon(Icons.auto_graph, color: Color(0xFF1B5E20)),
-                    SizedBox(width: 8),
-                    Text(
-                      'AI Predicted vs Actual Wait Times',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF1B5E20),
-                      ),
+                const Icon(Icons.auto_graph, color: Color(0xFF1B5E20), size: 22),
+                const SizedBox(width: 8),
+                const Expanded(
+                  child: Text(
+                    'AI Predicted vs Actual Wait Times',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1B5E20),
                     ),
-                  ],
+                  ),
                 ),
+                const SizedBox(width: 6),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
@@ -70,9 +68,9 @@ class PredictedVsActualWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
-                    '${accuracyPercent.toStringAsFixed(1)}% Accurate (±15m)',
+                    '${accuracyPercent.toStringAsFixed(1)}% (±15m)',
                     style: const TextStyle(
-                      fontSize: 11,
+                      fontSize: 10,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF1B5E20),
                     ),
