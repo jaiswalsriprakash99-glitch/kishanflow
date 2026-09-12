@@ -85,11 +85,13 @@ class StaffUser(Base):
     hashed_password = Column(String(255), nullable=False)
     role = Column(String(50), nullable=False, default="CENTRE_STAFF") # FARMER, CENTRE_STAFF, PACS_OPERATOR, ADMIN, SUPER_ADMIN
     centre_id = Column(Integer, ForeignKey("procurement_centres.id"), nullable=True)
+    pacs_id = Column(Integer, ForeignKey("pacs.id"), nullable=True)
     phone_number = Column(String(15), nullable=True)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
     centre = relationship("ProcurementCentre")
+    pacs = relationship("PACS")
 
 class CentreCounter(Base):
     __tablename__ = "centre_counters"
@@ -201,7 +203,7 @@ class ProcurementRecord(Base):
     __tablename__ = "procurement_records"
 
     id = Column(Integer, primary_key=True, index=True)
-    booking_id = Column(Integer, ForeignKey("bookings.id"), unique=True, nullable=False)
+    booking_id = Column(Integer, ForeignKey("bookings.id"), nullable=True)
     farmer_id = Column(Integer, ForeignKey("farmers.id"), nullable=False)
     centre_id = Column(Integer, ForeignKey("procurement_centres.id"), nullable=False)
     crop_id = Column(Integer, ForeignKey("crops.id"), nullable=False)
