@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from backend.app.database import get_db
 from backend.app.config import get_settings
-from backend.app.models import Farmer, StaffUser, Language
+from backend.app.models import Farmer, StaffUser, Language, PACS, ProcurementCentre
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -37,6 +37,8 @@ class TokenResponse(BaseModel):
     role: str
     user_id: int
     centre_id: Optional[int] = None
+    pacs_id: Optional[int] = None
+    pacs_name: Optional[str] = None
     username: Optional[str] = None
     full_name: Optional[str] = None
 
@@ -195,11 +197,31 @@ def staff_login(request: StaffLoginRequest, db: Session = Depends(get_db)):
             detail="Invalid username or password"
         )
 
+    pacs_id = getattr(staff, 'pacs_id', None)
+    pacs_name = None
+
+    if not pacs_id and staff.role == "PACS_OPERATOR":
+        if staff.centre_id:
+            centre = db.query(ProcurementCentre).filter(ProcurementCentre.id == staff.centre_id).first()
+            if centre and centre.pacs_id:
+                pacs_id = centre.pacs_id
+        if not pacs_id:
+            pacs_obj = db.query(PACS).filter(PACS.pacs_operator_id == staff.id).first()
+            if pacs_obj:
+                pacs_id = pacs_obj.id
+
+    if pacs_id:
+        pacs = db.query(PACS).filter(PACS.id == pacs_id).first()
+        if pacs:
+            pacs_name = pacs.name
+
     token = create_jwt_token({
         "sub": str(staff.id),
         "username": staff.username,
         "role": staff.role,
-        "centre_id": staff.centre_id
+        "centre_id": staff.centre_id,
+        "pacs_id": pacs_id,
+        "pacs_name": pacs_name,
     })
 
     return TokenResponse(
@@ -207,6 +229,8 @@ def staff_login(request: StaffLoginRequest, db: Session = Depends(get_db)):
         role=staff.role,
         user_id=staff.id,
         centre_id=staff.centre_id,
+        pacs_id=pacs_id,
+        pacs_name=pacs_name,
         username=staff.username,
         full_name=staff.full_name
     )

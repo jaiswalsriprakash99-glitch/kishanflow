@@ -103,10 +103,11 @@ def seed_database(db: Session):
         },
         {
             "username": "operator1",
-            "full_name": "Mysore PACS Staff",
+            "full_name": "Mysore PACS Operator",
             "hashed_password": pwd_hash,
-            "role": "CENTRE_STAFF",
+            "role": "PACS_OPERATOR",
             "centre_id": centre_objs[1].id,
+            "pacs_id": pacs_item.id,
             "phone_number": "9876540002",
         },
     ]
@@ -115,6 +116,10 @@ def seed_database(db: Session):
         if not staff_u:
             staff_u = StaffUser(**s_item)
             db.add(staff_u)
+            db.flush()
+        else:
+            staff_u.role = s_item["role"]
+            staff_u.pacs_id = s_item.get("pacs_id")
             db.flush()
 
     # 4. Counters
